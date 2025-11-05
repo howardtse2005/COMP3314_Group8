@@ -1,3 +1,4 @@
+Original Paper: https://arxiv.org/pdf/1505.04597
 ## Hardware Specifications
 This project was run on NVIDIA RTX 4090 GPU
 ## How to run
