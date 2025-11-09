@@ -20,7 +20,7 @@ Our implementation achieves competitive performance on the ISBI 2012 EM Segmenta
 |-------|--------------|------------|-------------|
 | **Human Performance** | 0.000005 | 0.0021 | 0.0010 |
 | U-Net (Original Paper) | 0.000353 | 0.0382 | 0.0611 |
-| **Our Implementation** | **0.000580** | **0.0728** | **0.0789** |
+| **Our Implementation** | **0.000519** | **0.0596** | **0.0674** |
 
 ### Performance Analysis
 
