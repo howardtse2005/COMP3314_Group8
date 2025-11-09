@@ -108,20 +108,11 @@ In the results/images directory, you can find a directory that stores gt.tif and
 Following the original U-Net paper, we implement:
 
 - **Elastic Deformation:** Simard-style distortions with Gaussian displacement fields
-  - Alpha: 34.0 (deformation magnitude)
+  - Alpha: 10.0 (deformation magnitude)
   - Sigma: 4.0 (smoothness)
   - Random rotation: Optional
 - **Reflection Padding:** For border handling during augmentation
-- **20× augmentation multiplier** to expand the small training dataset (30 images)
-
-### Training Strategy
-
-- **Loss Function:** Binary cross-entropy with logits (BCEWithLogitsLoss)
-- **Optimizer:** SGD with momentum (0.99) and weight decay (0.0005)
-- **Learning Rate:** 0.01 (fixed)
-- **Batch Size:** 1 (limited by GPU memory for full-resolution images)
-- **Early Stopping:** Patience of 10 epochs based on validation loss
-- **Checkpointing:** Best model saved based on validation performance
+- **500× augmentation multiplier** to expand the small training dataset (30 images)
 
 ---
 
@@ -133,29 +124,13 @@ Given the two-month timeframe for this reimplementation project, we successfully
 
 The original U-Net paper provides detailed architecture but leaves some training parameters underspecified, complicating replication:
 
-1. **Missing Learning Rate**
-   - **Challenge:** While the paper specifies SGD optimizer with momentum 0.99 and batch size 1, the learning rate is omitted
-   - **Solution:** Empirical determination through experimentation, settling on lr=0.01
-
-2. **Unclear Training Duration**
+1. **Unclear Training Duration**
    - **Challenge:** The paper mentions "10-hour training duration on a NVidia Titan GPU (6 GB)" but does not detail total epochs or iterations
    - **Solution:** Implemented early stopping with validation monitoring to determine optimal stopping point
 
-3. **Underspecified Data Augmentation**
+2. **Underspecified Data Augmentation**
    - **Challenge:** Elastic deformations described using 3×3 grid with Gaussian-distributed displacements (σ = 10 pixels) and bicubic interpolation, but unclear whether random rotations or translations were applied
    - **Solution:** Implemented configurable elastic deformation with optional random rotation (alpha=34.0, sigma=4.0 based on Simard et al.)
-
-4. **Test-Time Augmentation Ambiguity**
-   - **Challenge:** Seven-rotation test-time augmentation lacks specified angles
-   - **Solution:** Inferred strategy based on common practices (currently not implemented in test pipeline)
-
-5. **Limited Training Data**
-   - **Challenge:** Only 30 images in the training set
-   - **Solution:** Aggressive elastic deformation augmentation with 20× multiplier, generating 600 training samples
-
-6. **Memory Constraints**
-   - **Challenge:** Full-resolution images (512×512) with deep architecture on limited GPU memory
-   - **Solution:** Batch size of 1, batch normalization for training stability
 
 These ambiguities demanded interpretation and validation during reimplementation, contributing to the performance gap between our results and the original paper.
 
@@ -163,9 +138,7 @@ These ambiguities demanded interpretation and validation during reimplementation
 
 ## Potential Improvements
 
-Additional time would enable the following enhancements, categorized into methodological and architectural improvements:
-
-### 5.1 Methodological Enhancements
+Additional time would enable the following improvements:
 
 #### Cross-Validation
 - Implement k-fold cross-validation for robust performance estimates and confidence intervals
@@ -177,8 +150,6 @@ While we used fixed hyperparameters (SGD with momentum 0.99, batch size 1), area
 - **Learning rate schedules:** Step decay, cosine annealing, or ReduceLROnPlateau
 - **Batch size exploration:** 2–4 with adjusted momentum (if memory permits)
 - **Elastic deformation parameters:** Systematic tuning of α and σ values
-- **Loss weighting:** Addressing class imbalance in foreground/background pixels
-- Tools like grid search or Bayesian optimization could identify superior configurations
 
 #### Expanded Augmentation Pipeline
 Beyond elastic deformations and random rotations:
@@ -187,70 +158,6 @@ Beyond elastic deformations and random rotations:
 - **Geometric transformations:** Scaling, flipping, shearing
 - **Cutout augmentation:** Random masking of image regions
 - Improves generalization and robustness to input variations
-
-#### Weighted Loss Function
-Implement the original paper's weighted loss to emphasize cell boundaries:
-
-```
-w(x) = wc(x) + w0 · exp(−(d1(x) + d2(x))² / 2σ²)
-```
-
-Where:
-- `wc(x)` balances class frequencies
-- `d1(x)` and `d2(x)` are distances to nearest and second-nearest cell borders
-- `w0 = 10` and `σ ≈ 5` pixels
-
-This emphasizes separation borders between touching cells during training, which is critical for instance segmentation in biomedical images.
-
-#### Test-Time Augmentation
-Implement the seven-rotation strategy mentioned in the original paper:
-- Generate predictions for multiple rotations
-- Average predictions for final output
-- Expected to reduce variance and improve boundary accuracy
-
-### 5.2 Architectural Explorations
-
-Our modular U-Net implementation with separate `DoubleConv`, `Down`, and `Up` classes facilitates experimentation with:
-
-#### Network Architecture Variants
-1. **Deeper Networks:** Additional encoder-decoder levels for larger receptive fields
-2. **Residual Connections:** ResNet-style blocks within `DoubleConv` modules for easier optimization
-3. **Attention Mechanisms:** 
-   - Attention gates in `Up` modules to focus on relevant features
-   - Self-attention for capturing long-range dependencies
-4. **Alternative Normalization:** 
-   - Group normalization instead of batch normalization
-   - Instance normalization for smaller batch sizes
-
-#### Upsampling Strategies
-- Current implementation supports both bilinear upsampling and transposed convolutions
-- Could explore learned upsampling kernels
-- Compare performance and artifact generation
-
-#### Multi-Scale Features
-- Integrate features from multiple scales in decoder
-- Dense connections similar to DenseNet
-- Feature pyramid networks for multi-scale prediction
-
-### 5.3 Evaluation and Generalization
-
-#### Diverse Dataset Evaluation
-The original U-Net paper focused exclusively on biomedical image segmentation. Testing on diverse datasets would validate generalizability:
-- **Natural images:** PASCAL VOC, Cityscapes for semantic segmentation
-- **Satellite imagery:** Land cover classification tasks
-- **Industrial applications:** Defect detection in manufacturing
-- **Document analysis:** Text segmentation and layout analysis
-
-However, proper multi-dataset benchmarking would extend beyond our two-month timeline.
-
-#### Comprehensive Metrics
-Beyond pixel error, warping error, and Rand error:
-- Intersection over Union (IoU)
-- Dice coefficient
-- Boundary F1-score for edge accuracy
-- Hausdorff distance for boundary quality
-
----
 
 ## Discussion
 
