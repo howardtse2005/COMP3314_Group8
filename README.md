@@ -207,40 +207,7 @@ The improvements listed above represent directions that have been shown effectiv
    ISBI 2012 EM Segmentation Challenge  
    [https://imagej.net/events/isbi-2012-segmentation-challenge](https://imagej.net/events/isbi-2012-segmentation-challenge)
 
-3. **Evaluation Metrics:**  
-   Arganda-Carreras, I., et al. (2015). Crowdsourcing the creation of image segmentation algorithms for connectomics. *Frontiers in Neuroanatomy*.
-
-4. **Elastic Deformation:**  
+e. **Elastic Deformation:**  
    Simard, P. Y., Steinkraus, D., & Platt, J. C. (2003). Best practices for convolutional neural networks applied to visual document analysis. *ICDAR 2003*.
 
 ---
-
-## Citation
-
-If you use this implementation in your research, please cite the original U-Net paper:
-
-```bibtex
-@inproceedings{ronneberger2015unet,
-  title={U-Net: Convolutional Networks for Biomedical Image Segmentation},
-  author={Ronneberger, Olaf and Fischer, Philipp and Brox, Thomas},
-  booktitle={Medical Image Computing and Computer-Assisted Intervention--MICCAI 2015},
-  pages={234--241},
-  year={2015},
-  organization={Springer}
-}
-```
-
----
-
-## Acknowledgments
-
-- Original U-Net architecture by Ronneberger et al.
-- ISBI 2012 Challenge organizers for the dataset
-- Fiji/ImageJ team for evaluation tools
-- PyTorch community for excellent documentation
-
----
-
-## License
-
-This implementation is provided for COMP3314 HKU. Please refer to the original U-Net paper for the official implementation and licensing.
