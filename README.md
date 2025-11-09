@@ -207,7 +207,7 @@ The improvements listed above represent directions that have been shown effectiv
    ISBI 2012 EM Segmentation Challenge  
    [https://imagej.net/events/isbi-2012-segmentation-challenge](https://imagej.net/events/isbi-2012-segmentation-challenge)
 
-e. **Elastic Deformation:**  
+3. **Elastic Deformation:**  
    Simard, P. Y., Steinkraus, D., & Platt, J. C. (2003). Best practices for convolutional neural networks applied to visual document analysis. *ICDAR 2003*.
 
 ---
