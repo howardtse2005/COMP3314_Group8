@@ -23,8 +23,26 @@ ids = WindowManager.getIDList();
  
 if ( ids == null || ids.length < 2 )
 {
-    IJ.showMessage( "You should have at least two images open." );
-    return;
+    // Prompt user to open two image files if fewer than 2 images are open
+    IJ.showMessage("Not enough images open", "Please select two image files to open.");
+    od1 = new ij.io.OpenDialog("Select original labels", null);
+    path1 = od1.getPath();
+    if (path1 == null) return;
+    img1 = IJ.openImage(path1);
+    if (img1 != null) img1.show();
+
+    od2 = new ij.io.OpenDialog("Select proposed labels", null);
+    path2 = od2.getPath();
+    if (path2 == null) return;
+    img2 = IJ.openImage(path2);
+    if (img2 != null) img2.show();
+
+    ids = WindowManager.getIDList();
+    if ( ids == null || ids.length < 2 )
+    {
+        IJ.showMessage("Failed to open two images.");
+        return;
+    }
 }
  
 // Get all the titles of the open images        
