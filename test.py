@@ -36,7 +36,7 @@ def test(test_data_path='data/test_example.txt',
          pretrained_model=checkpoint_path,
          test_img_path = test_img_path,
          test_mask_path = test_mask_path,
-         threshold=0.65):
+         threshold=0.5):
     
     # Create timestamp for folder names
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
