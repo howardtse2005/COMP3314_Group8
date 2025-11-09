@@ -9,8 +9,8 @@ class Config:
     setproctitle.setproctitle("%s" % name)
 
     #<---------- Paths and Directories ----------->#
-    dir_img_tr = 'data/ISBI-2012-challenge/test-volume'
-    dir_mask_tr = 'data/ISBI-2012-challenge/test-labels'
+    dir_img_tr = 'data/ISBI-2012-challenge/train-volume'
+    dir_mask_tr = 'data/ISBI-2012-challenge/train-labels'
     dir_img_val = 'data/ISBI-2012-challenge/val-volume'
     dir_mask_val = 'data/ISBI-2012-challenge/val-labels'
     dir_img_test = 'data/ISBI-2012-challenge/test-volume'
@@ -20,7 +20,7 @@ class Config:
     dir_temp_ts = 'data/ISBI-2012-challenge/temp-ts'
     checkpoint_path = 'checkpoints/' # Checkpoint path for training
     log_path = 'log'
-    pretrained_model = 'checkpoints/unet.pth'  # Checkpoint path for testing
+    pretrained_model = 'checkpoints/unet_group8_3314.pth'  # Checkpoint path for testing
 
     #<-------------------------------------------->#
     
@@ -35,14 +35,14 @@ class Config:
     use_elastic = True         # enable elastic deformations for training
     elastic_alpha = 10.0        # deformation intensity (pixels)
     elastic_sigma = 4.0         # Gaussian smoothing (pixels)
-    elastic_n_copies = 100       # number of deformed copies per input image (approximate U-Net heavy augmentation)
+    elastic_n_copies = 500       # number of deformed copies per input image (approximate U-Net heavy augmentation)
     elastic_prob = 1.0          # probability to apply per copy
     #<-------------------------------------------->#
     
     
     #<---------- Training Settings ----------->#
     use_checkpoint = False # resume training from checkpoint
-    epoch = 100  # max epochs cap
+    epoch = 200  # max epochs cap
     lr = 1e-2
     train_batch_size = 4
     val_batch_size = 4
