@@ -78,7 +78,7 @@ The ISBI-2012 EM Segmentation Challenge dataset can be downloaded on https://dow
 python3 train.py
 ```
 
-Alternatively, you can download the pretrained model (on ISBI 2012 EM Segmentation Challenge) at https://drive.google.com/file/d/15AWBbmBZI-zksuFbL0cFkHmAygpwO70S/view?usp=sharing
+Alternatively, you can download the pretrained model (on ISBI 2012 EM Segmentation Challenge) at https://drive.google.com/file/d/1LXnkjoYUhszdy7e26fbaurcWgbGTMKD4/view?usp=sharing
 
 The training loss curve will be saved on /results/loss directory
 
