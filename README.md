@@ -1,5 +1,7 @@
 # U-Net: Convolutional Networks for Biomedical Image Segmentation
 
+Note: This code is 100% implemented by us in Python, as the original UNet was implemented in Caffe, which provides less flexibility in implementing training methods and configurations.
+
 ## Implementation Overview
 
 This is a PyTorch implementation of the U-Net architecture for biomedical image segmentation, based on the original paper by Ronneberger et al. The implementation was developed and trained on the ISBI 2012 EM Segmentation Challenge dataset.
